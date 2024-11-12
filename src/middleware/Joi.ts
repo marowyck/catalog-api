@@ -1,7 +1,5 @@
 import Joi, { ObjectSchema } from 'joi';
 import { NextFunction, Request, Response } from 'express';
-import { Catalog } from '../models/Catalog';
-import { Product } from '../models/Product';
 import Logging from '../library/Logging';
 
 export const ValidateJoi = (schema: ObjectSchema) => {
@@ -11,32 +9,38 @@ export const ValidateJoi = (schema: ObjectSchema) => {
             next();
         } catch (error) {
             Logging.error(error);
-            next(error);  
+            next(error);
         }
     };
 };
 
 export const Schemas = {
     catalog: {
-        create: Joi.object<Catalog>({
-            name: Joi.string().required()
+        create: Joi.object({
+            name: Joi.string().required()  
         }),
-        update: Joi.object<Catalog>({
-            name: Joi.string().required()
+        update: Joi.object({
+            name: Joi.string().required()  
         })
     },
     product: {
-        create: Joi.object<Product>({
+        create: Joi.object({
             catalog: Joi.string()
-                .regex(/^[0-9a-fA-F]{24}$/)
+                .regex(/^[0-9a-fA-F]{24}$/) 
                 .required(),
-            title: Joi.string().required()
+            title: Joi.string().required(), 
+            description: Joi.string().optional(), 
+            price: Joi.number().required(), 
+            stockQuantity: Joi.number().required() 
         }),
-        update: Joi.object<Product>({
+        update: Joi.object({
             catalog: Joi.string()
                 .regex(/^[0-9a-fA-F]{24}$/)
-                .required(),
-            title: Joi.string().required()
+                .optional(),  
+            title: Joi.string().optional(),
+            description: Joi.string().optional(),
+            price: Joi.number().optional(),
+            stockQuantity: Joi.number().optional()
         })
     }
 };

@@ -5,6 +5,7 @@ import { config } from './config/config';
 import Logging from './library/Logging';
 import catalogRoutes from './routes/Catalog';
 import productRoutes from './routes/Product';
+import userRoutes from './routes/User'
 import { errorHandler } from './middleware/error-handler';
 
 
@@ -49,6 +50,7 @@ const StartServer = () => {
 
     app.use('/catalogs', catalogRoutes);
     app.use('/products', productRoutes);
+    app.use('/user', userRoutes);
 
     app.get('/ping', (req: Request, res: Response, next: NextFunction) => {
         res.status(200).json({ hello: 'world' });
