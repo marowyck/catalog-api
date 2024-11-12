@@ -36,7 +36,7 @@ export const readUser = async (req: Request, res: Response, next: NextFunction) 
     const userId = req.params.userId;
 
     return User.findById(userId)
-        .then((user) => (user ? res.status(200).json({ user }) : res.status(404).json({ message: 'Usuário não encontrado' })))
+        .then((user) => (user ? res.status(200).json({ user }) : res.status(404).json({ message: 'User not found' })))
         .catch((error) => res.status(500).json({ error }));
 };
 
@@ -50,7 +50,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     const userId = req.params.userId;
 
     return User.findByIdAndDelete(userId)
-        .then((user) => (user ? res.status(200).json({ message: 'Usuário deletado com sucesso' }) : res.status(404).json({ message: 'Usuário não encontrado' })))
+        .then((user) => (user ? res.status(200).json({ message: 'User deleted' }) : res.status(404).json({ message: 'User not found' })))
         .catch((error) => res.status(500).json({ error }));
 };
 
@@ -60,12 +60,12 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(404).json({ message: 'Usuário não encontrado' });
+            return res.status(404).json({ message: 'User not found' });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Senha incorreta' });
+            return res.status(401).json({ message: 'Wrong password' });
         }
 
         const token = jwt.sign(
@@ -74,7 +74,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
             { expiresIn: '1h' } 
         );
 
-        res.status(200).json({ message: 'Login bem-sucedido', token });
+        res.status(200).json({ message: 'Welcome', token });
     } catch (error) {
         res.status(500).json({ error });
     }

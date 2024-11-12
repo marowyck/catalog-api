@@ -56,7 +56,7 @@ const updateProduct = async (req: Request, res: Response, next: NextFunction): P
             const updatedProduct = await product.save();
             res.status(200).json({ product: updatedProduct });
         } else {
-            res.status(404).json({ message: 'Produto não encontrado' });
+            res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
         next(error);
@@ -69,9 +69,9 @@ const deleteProduct = async (req: Request, res: Response, next: NextFunction): P
     try {
         const product = await Product.findByIdAndDelete(productId);
         if (product) {
-            res.status(200).json({ product, message: 'Produto deletado' });
+            res.status(200).json({ product, message: 'Product deleted' });
         } else {
-            res.status(404).json({ message: 'Produto não encontrado' });
+            res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
         next(error);
