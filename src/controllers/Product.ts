@@ -3,19 +3,22 @@ import mongoose from 'mongoose';
 import Product from '../models/Product';
 
 const createProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { catalog, title } = req.body;
+    const { catalog, title, description, price, stockQuantity } = req.body;
 
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         catalog,
-        title
+        title,
+        description,
+        price,
+        stockQuantity
     });
 
     try {
         const savedProduct = await product.save();
         res.status(201).json({ product: savedProduct });
     } catch (error) {
-        next(error); 
+        next(error);
     }
 };
 
